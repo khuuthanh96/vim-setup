@@ -3,10 +3,16 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'joshdick/onedark.vim'
-Plug 'kien/ctrlp.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'fatih/gomodifytags'
+Plug 'preservim/nerdtree'
 
 call plug#end()
 
@@ -23,6 +29,7 @@ set undodir=~/.vim/undodir
 set undofile
 set incsearch
 set smartindent
+set laststatus=2
 
 let g:go_highlight_types=1
 let g:go_highlight_fields=1
@@ -31,6 +38,41 @@ let g:go_highlight_function_calls=1
 let g:go_highlight_operators=1
 let g:go_highlight_extra_types=1
 let g:go_highlight_build_contrainst=1
+let g:go_fmt_autosave=1
+let g:go_imports_autosave=1
+let g:go_doc_popup_window = 1
+
+let g:airline_stl_path_style = 'short'
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#branch#empty_message = ''
+let g:airline#extensions#branch#displayed_head_limit = 20
+let g:airline#extensions#branch#sha1_len = 20
+
+nnoremap <C-p> :GFiles<Cr>
+nnoremap <C-g> :Ag<Cr>
+
+nnoremap <leader><TAB> <C-^>
+nnoremap <leader>b :Buffers<Cr>
+nnoremap <leader>bd :%bd<bar>e#<bar>bd#<Cr>
+nnoremap <leader>nh :noh<Cr>
+
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+
+" Navigation commands
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+
+" Alternate commands
+au FileType go nmap <Leader>ae <Plug>(go-alternate-edit)
+au FileType go nmap <Leader>av <Plug>(go-alternate-vertical)
+
+" Common Go commands
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage-toggle)
+au FileType go nmap <Leader>i <Plug>(go-info)
 
 " COC default setting
 " Set internal encoding of vim, not needed on neovim, since coc.nvim using some
