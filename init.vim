@@ -30,6 +30,7 @@ set undofile
 set incsearch
 set smartindent
 set laststatus=2
+set cursorline
 
 let g:go_highlight_types=1
 let g:go_highlight_fields=1
@@ -56,9 +57,11 @@ nnoremap <leader>b :Buffers<Cr>
 nnoremap <leader>bd :%bd<bar>e#<bar>bd#<Cr>
 nnoremap <leader>nh :noh<Cr>
 
-nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <S-f> :NERDTreeFind<CR>
+nnoremap <S-n> :NERDTreeFocus<CR>
+nnoremap <S-t> :NERDTreeToggle<CR>
+
+nnoremap <leader>g :G<CR>
 
 " Navigation commands
 au FileType go nmap <Leader>ds <Plug>(go-def-split)
@@ -69,7 +72,6 @@ au FileType go nmap <Leader>ae <Plug>(go-alternate-edit)
 au FileType go nmap <Leader>av <Plug>(go-alternate-vertical)
 
 " Common Go commands
-au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>c <Plug>(go-coverage-toggle)
 au FileType go nmap <Leader>i <Plug>(go-info)
