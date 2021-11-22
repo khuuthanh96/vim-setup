@@ -31,6 +31,7 @@ set undofile
 set incsearch
 set smartindent
 set laststatus=2
+set cursorline
 let g:go_highlight_types=1
 let g:go_highlight_fields=1
 let g:go_highlight_functions=1
@@ -65,9 +66,11 @@ nnoremap <leader>bl :Buffers<Cr>
 nnoremap <leader>bd :%bd<bar>e#<bar>bd#<Cr>
 nnoremap <leader>nh :noh<Cr>
 
-nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <S-f> :NERDTreeFind<CR>
+nnoremap <S-n> :NERDTreeFocus<CR>
+nnoremap <S-t> :NERDTreeToggle<CR>
+
+nnoremap <leader>g :G<CR>
 
 " Navigation commands
 au FileType go nmap <Leader>ds <Plug>(go-def-split)
