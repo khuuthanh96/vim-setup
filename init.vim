@@ -58,19 +58,23 @@ let g:airline#extensions#fzf#enabled = 1
 
 nnoremap <C-p> :GFiles<Cr>
 nnoremap <leader>sb :G<Cr>
+nnoremap <leader>st :GFiles?<Cr>
 nnoremap <C-g> :Ag<Cr>
 nnoremap <leader>gc :GBranches<CR>
+nnoremap <leader>gb :Git blame<CR>
 
 nnoremap <leader><TAB> <C-^>
 nnoremap <leader>bl :Buffers<Cr>
 nnoremap <leader>bd :%bd<bar>e#<bar>bd#<Cr>
 nnoremap <leader>nh :noh<Cr>
 
-nnoremap <S-f> :NERDTreeFind<CR>
-nnoremap <S-n> :NERDTreeFocus<CR>
-nnoremap <S-t> :NERDTreeToggle<CR>
+nnoremap <TAB>f :NERDTreeFind<CR>
+nnoremap <TAB>n :NERDTreeFocus<CR>
+nnoremap <TAB>t :NERDTreeToggle<CR>
 
 nnoremap <leader>g :G<CR>
+
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " Navigation commands
 au FileType go nmap <Leader>ds <Plug>(go-def-split)
