@@ -2,18 +2,33 @@
 "
 call plug#begin('~/.vim/plugged')
 
+" theme
 Plug 'joshdick/onedark.vim'
+
+" coc code complete
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" go extension
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-fugitive'
+
+" status bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+" file navigate
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'stsewd/fzf-checkout.vim'
+
+" code extension
 Plug 'jiangmiao/auto-pairs'
 Plug 'fatih/gomodifytags'
+
+" file tree
 Plug 'preservim/nerdtree'
+
+" code comment
+Plug 'tpope/vim-commentary'
 
 call plug#end()
 
@@ -32,6 +47,11 @@ set incsearch
 set smartindent
 set laststatus=2
 set cursorline
+
+" Go mapping
+" disable vim-go :GoDef short cut (gd)
+let g:go_def_mapping_enabled = 0
+
 let g:go_highlight_types=1
 let g:go_highlight_fields=1
 let g:go_highlight_functions=1
@@ -56,24 +76,39 @@ let airline#extensions#coc#error_symbol = 'E:'
 let airline#extensions#coc#warning_symbol = 'W:'
 let g:airline#extensions#fzf#enabled = 1
 
+let $FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'
+
 nnoremap <C-p> :GFiles<Cr>
 nnoremap <leader>sb :G<Cr>
 nnoremap <leader>st :GFiles?<Cr>
-nnoremap <C-g> :Ag<Cr>
+nnoremap <leader>g :Rg<Cr>
+nnoremap <leader>w :Rg <C-R><C-W><Cr>
+
 nnoremap <leader>gc :GBranches<CR>
 nnoremap <leader>gb :Git blame<CR>
 
+" //3 get from our side, //2 get from origin
+nnoremap <leader>gl :diffget //3<CR>
+nnoremap <leader>gr :diffget //2<CR>
+
+" delete but not write to buffer
+nnoremap <leader>d "_dd<CR>
+
 nnoremap <leader><TAB> <C-^>
-nnoremap <leader>bl :Buffers<Cr>
+nnoremap <leader>l :Buffers<Cr>
 nnoremap <leader>bd :%bd<bar>e#<bar>bd#<Cr>
 nnoremap <leader>nh :noh<Cr>
+nnoremap <leader>+ :vertical resize +5<CR>
+nnoremap <leader>- :vertical resize -5<CR>
 
 nnoremap <TAB>f :NERDTreeFind<CR>
 nnoremap <TAB>n :NERDTreeFocus<CR>
 nnoremap <TAB>t :NERDTreeToggle<CR>
 
-nnoremap <leader>g :G<CR>
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " Navigation commands
@@ -87,8 +122,11 @@ au FileType go nmap <Leader>av <Plug>(go-alternate-vertical)
 " Common Go commands
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>c <Plug>(go-coverage-toggle)
-au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <leader>i <Plug>(go-info)
 au FileType go nmap <Leader>e <Plug>(go-iferr)
+au FileType go nmap <leader>fmt <Plug>(go-fmt)
+au FileType go nmap gfs :GoFillStruct<cr>
+au FileType go nmap gat :GoAddTags<cr>
 
 " COC default setting
 " Set internal encoding of vim, not needed on neovim, since coc.nvim using some
