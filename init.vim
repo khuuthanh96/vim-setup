@@ -78,14 +78,17 @@ let g:airline#extensions#fzf#enabled = 1
 
 let $FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'
 
+let mapleader = ","
+
 nnoremap <C-p> :GFiles<Cr>
+nnoremap <C-l> :Files<Cr>
 nnoremap <leader>sb :G<Cr>
 nnoremap <leader>st :GFiles?<Cr>
 nnoremap <leader>g :Rg<Cr>
 nnoremap <leader>w :Rg <C-R><C-W><Cr>
 
-nnoremap <leader>gc :GBranches<CR>
 nnoremap <leader>gb :Git blame<CR>
+nnoremap <leader>cs :CocRes<Cr>
 
 " //3 get from our side, //2 get from origin
 nnoremap <leader>gl :diffget //3<CR>
@@ -110,6 +113,17 @@ vnoremap K :m '<-2<CR>gv=gv
 
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
+" " Copy to clipboard
+vnoremap  <leader>y  "+y
+nnoremap  <leader>Y  "+yg_
+nnoremap  <leader>y  "+y
+
+" " Paste from clipboard
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
 
 " Navigation commands
 au FileType go nmap <Leader>ds <Plug>(go-def-split)
