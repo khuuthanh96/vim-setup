@@ -1,12 +1,11 @@
 " plugins
-"
 call plug#begin('~/.vim/plugged')
 
 " theme
-Plug 'joshdick/onedark.vim'
+Plug 'morhetz/gruvbox'
 
 " coc code complete
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 " go extension
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -41,6 +40,7 @@ set nu rnu
 set nobackup
 set noswapfile
 set nowrap
+set nohlsearch
 set undodir=~/.vim/undodir
 set undofile
 set incsearch
@@ -76,7 +76,17 @@ let airline#extensions#coc#error_symbol = 'E:'
 let airline#extensions#coc#warning_symbol = 'W:'
 let g:airline#extensions#fzf#enabled = 1
 
+let g:go_fmt_command="gopls"
+let g:go_gopls_gofumpt=1
+
+" fzf configured
 let $FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'
+let $FZF_DEFAULT_OPTS="--preview-window 'right:57%' 
+	\ --bind ctrl-y:preview-up,ctrl-e:preview-down,
+	\ctrl-b:preview-page-up,ctrl-f:preview-page-down,
+	\ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,
+	\shift-up:half-page-up,shift-down:half-page-down"
+
 
 let mapleader = ","
 
@@ -327,5 +337,5 @@ if (empty($TMUX))
   endif
 endif
 
-colorscheme onedark
+colorscheme gruvbox
 
