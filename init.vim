@@ -63,6 +63,8 @@ set smartindent
 set laststatus=2
 set cursorline
 
+lang en_US.UTF-8
+
 " Go mapping
 " disable vim-go :GoDef short cut (gd)
 " let g:go_def_mapping_enabled = 0
@@ -86,11 +88,16 @@ let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#branch#empty_message = ''
 let g:airline#extensions#branch#displayed_head_limit = 20
 let g:airline#extensions#branch#sha1_len = 20
-let g:airline#extensions#coc#enabled = 1
-let airline#extensions#coc#error_symbol = 'E:'
-let airline#extensions#coc#warning_symbol = 'W:'
 let g:airline#extensions#fzf#enabled = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_symbols.linenr = ' '
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.colnr = ' '
+
 " let g:airline_theme='night_owl'
+
 let g:airline_theme='gruvbox'
 
 let g:go_fmt_command="gopls"
@@ -99,12 +106,11 @@ let g:go_gopls_enabled = 0
 
 " fzf configured
 let $FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'
-let $FZF_DEFAULT_OPTS="--preview-window 'right:57%' 
-	\ --bind ctrl-y:preview-up,ctrl-e:preview-down,
-	\ctrl-b:preview-page-up,ctrl-f:preview-page-down,
-	\ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,
-	\shift-up:half-page-up,shift-down:half-page-down"
-
+let $FZF_DEFAULT_OPTS="--preview-window 'right:57%'
+\ --bind ctrl-y:preview-up,ctrl-e:preview-down,
+\ctrl-b:preview-page-up,ctrl-f:preview-page-down,
+\ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,
+\shift-up:half-page-up,shift-down:half-page-down"
 
 let mapleader = ","
 
@@ -117,7 +123,7 @@ nnoremap <leader>w :Rg <C-R><C-W><Cr>
 nnoremap <leader>q :ccl<Cr>
 
 nnoremap <leader>gb :Git blame<CR>
-nnoremap <leader>cs :CocRes<Cr>
+nnoremap <leader>go :Git log --oneline<CR>
 
 " //3 get from our side, //2 get from origin
 nnoremap <leader>gr :diffget //3<CR>
@@ -165,9 +171,7 @@ au FileType go nmap <Leader>av <Plug>(go-alternate-vertical)
 " Common Go commands
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>c <Plug>(go-coverage-toggle)
-au FileType go nmap <leader>i <Plug>(go-info)
-au FileType go nmap <Leader>e <Plug>(go-iferr)
-au FileType go nmap <leader>fmt <Plug>(go-fmt)
+au FileType go nmap gie <Plug>(go-iferr)
 au FileType go nmap gfs :GoFillStruct<cr>
 au FileType go nmap gat :GoAddTags<cr>
 
