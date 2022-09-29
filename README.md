@@ -20,6 +20,7 @@ nvim +PlugInstall
 ```
 
 # keymap motion
+## Leader key was mapped to ','
 gd : Go to definition
 
 gi : Go to implementation
