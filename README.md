@@ -18,3 +18,20 @@ Copy all files & dir in this repo to `~/.config/nvim`
 ```
 nvim +PlugInstall
 ```
+
+# keymap motion
+gd : Go to definition
+
+gi : Go to implementation
+
+ctrl-o : Go back previous open file
+
+ctrl-p : Open fzf search window
+
+ctrl-u : Scroll page up
+
+ctrl-d : Scroll page down
+
+,ae : switch to test file
+
+,-tab : switch between previous file
