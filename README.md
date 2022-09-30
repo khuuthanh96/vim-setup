@@ -11,6 +11,11 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 ```
 
+## Install gopls (Golang language server)
+```
+brew install gopls
+```
+
 ## Create neovim folder in `~/.config/nvim`
 Copy all files & dir in this repo to `~/.config/nvim`
 
