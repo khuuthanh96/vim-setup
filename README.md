@@ -24,6 +24,11 @@ Copy all files & dir in this repo to `~/.config/nvim`
 nvim +PlugInstall
 ```
 
+## Install search engine RG
+```
+brew install rg
+```
+
 # keymap motion
 ## Leader key was mapped to ','
 gd : Go to definition
