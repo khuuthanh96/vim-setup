@@ -9,11 +9,14 @@ Plug 'morhetz/gruvbox'
 
 " lsp & autocomplete
 Plug 'neovim/nvim-lspconfig'
+Plug 'mhinz/vim-startify'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 
 " snippet
 Plug 'L3MON4D3/LuaSnip'
@@ -62,7 +65,6 @@ set incsearch
 set smartindent
 set laststatus=2
 set cursorline
-
 lang en_US.UTF-8
 
 " Go mapping
@@ -89,6 +91,7 @@ let g:airline#extensions#branch#empty_message = ''
 let g:airline#extensions#branch#displayed_head_limit = 20
 let g:airline#extensions#branch#sha1_len = 20
 let g:airline#extensions#fzf#enabled = 1
+let g:airline#extensions#whitespace#enabled = 0
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
@@ -104,6 +107,12 @@ let g:go_fmt_command="gopls"
 let g:go_gopls_gofumpt=1
 let g:go_gopls_enabled = 0
 
+" vim-startify
+"
+let g:startify_bookmarks = [ {'a': '~/Documents/projs/stampless_backend'}, {'b': '~/Documents/projs/stampless_import'}, {'c': '~/.config/nvim/init.vim'}, {'d': '~/.zshrc'} ]
+let g:startify_change_to_vcs_root = 1
+let g:startify_padding_left = 10
+
 " fzf configured
 let $FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'
 let $FZF_DEFAULT_OPTS="--preview-window 'right:57%'
@@ -112,12 +121,13 @@ let $FZF_DEFAULT_OPTS="--preview-window 'right:57%'
 \ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,
 \shift-up:half-page-up,shift-down:half-page-down"
 
-let mapleader = ","
-
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
 nnoremap <C-p> :GFiles<Cr>
 nnoremap <C-l> :Files<Cr>
 nnoremap <leader>sb :G<Cr>
 nnoremap <leader>st :GFiles?<Cr>
+nnoremap <leader>sd :Gdiffsplit<Cr>
 nnoremap <leader>g :Rg<Cr>
 nnoremap <leader>w :Rg <C-R><C-W><Cr>
 nnoremap <leader>q :ccl<Cr>
@@ -131,6 +141,8 @@ nnoremap <leader>gl :diffget //2<CR>
 
 " delete but not write to buffer
 nnoremap <leader>d "_dd<CR>
+
+nnoremap <leader>s :Startify<CR>
 
 nnoremap <leader><TAB> <C-^>
 nnoremap <leader>l :Buffers<Cr>
@@ -150,15 +162,17 @@ vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " " Copy to clipboard
-vnoremap  <leader>y  "+y
-nnoremap  <leader>Y  "+yg_
-nnoremap  <leader>y  "+y
+vnoremap <leader>y  "+y
+nnoremap <leader>Y  "+yg_
+nnoremap <leader>y  "+y
 
 " " Paste from clipboard
 nnoremap <leader>p "+p
 nnoremap <leader>P "+P
 vnoremap <leader>p "+p
 vnoremap <leader>P "+P
+
+tnoremap <Esc> <C-\><C-n>
 
 " Navigation commands
 au FileType go nmap <Leader>ds <Plug>(go-def-split)
@@ -169,8 +183,8 @@ au FileType go nmap <Leader>ae <Plug>(go-alternate-edit)
 au FileType go nmap <Leader>av <Plug>(go-alternate-vertical)
 
 " Common Go commands
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage-toggle)
+au FileType go nmap <leader>c :GoCoverageToggle<cr>
+au FileType go nmap <leader>t :GoTestFunc<cr>
 au FileType go nmap gie <Plug>(go-iferr)
 au FileType go nmap gfs :GoFillStruct<cr>
 au FileType go nmap gat :GoAddTags<cr>
@@ -198,4 +212,10 @@ colorscheme gruvbox
 
 " transparent background
 " hi Normal guibg=NONE ctermbg=NONE
+
+" Diagnostic colors
+"
+hi DiagnosticError ctermfg=167 guifg=#fb4934
+hi DiagnosticWarn ctermfg=214 guifg=#fabd2f
+hi DiagnosticInfo ctermfg=109 guifg=#83a598
 

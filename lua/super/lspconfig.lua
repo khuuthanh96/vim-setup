@@ -2,7 +2,18 @@ local cmp = require('cmp')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local nvim_lsp = require('lspconfig')
 local luasnip = require('luasnip')
-local servers = { 'gopls', 'tsserver', 'html' }
+local servers = { 'gopls', 'vuels', 'tailwindcss', 'tsserver' }
+
+-- require'nvim-treesitter.configs'.setup {
+--   highlight = {
+--     enable = true,
+--     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+--     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+--     -- Using this option may slow down your editor, and you may see some duplicate highlights.
+--     -- Instead of true it can also be a list of languages
+--     additional_vim_regex_highlighting = false,
+--   },
+-- }
 
 -- Use an on_attach function to only map the following keys after
 -- the language server attaches to the current buffer
@@ -18,22 +29,25 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', '<leader>e', vim.diagnostic.goto_next, bufopts)
+  vim.keymap.set('n', '<leader>E', vim.diagnostic.goto_prev, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
   vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+
 end
 
 -- nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
-for _, lsp in ipairs(servers) do 
-	nvim_lsp[lsp].setup {
+for _, lsp in ipairs(servers) do
+	nvim_lsp[lsp].setup{
 		capabilities = capabilities,
 		on_attach = on_attach,
 		flags = {
-		    debounce_text_changes = 150,
+			debounce_text_changes = 150,
 		}
 	}
 end
@@ -93,3 +107,11 @@ for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
+
+vim.diagnostic.config({
+})
+
+-- You will likely want to reduce updatetime which affects CursorHold
+-- note: this setting is global and should be set only once
+vim.o.updatetime = 250
+vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
