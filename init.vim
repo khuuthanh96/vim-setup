@@ -32,8 +32,9 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " file navigate
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
 " code extension
 Plug 'jiangmiao/auto-pairs'
@@ -44,6 +45,11 @@ Plug 'preservim/nerdtree'
 
 " code comment
 Plug 'tpope/vim-commentary'
+
+" debug
+Plug 'mfussenegger/nvim-dap'
+Plug 'leoluz/nvim-dap-go' 
+Plug 'rcarriga/nvim-dap-ui'
 
 call plug#end()
 
@@ -83,14 +89,12 @@ let g:go_imports_autosave=1
 let g:go_doc_popup_window=1
 let g:go_echo_command_info=1
 
-let g:fzf_buffers_jump = 1
 
 let g:airline_stl_path_style = 'short'
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#branch#empty_message = ''
 let g:airline#extensions#branch#displayed_head_limit = 20
 let g:airline#extensions#branch#sha1_len = 20
-let g:airline#extensions#fzf#enabled = 1
 let g:airline#extensions#whitespace#enabled = 0
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -113,23 +117,29 @@ let g:startify_bookmarks = [ {'a': '~/Documents/projs/stampless_backend'}, {'b':
 let g:startify_change_to_vcs_root = 1
 let g:startify_padding_left = 10
 
-" fzf configured
-let $FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'
-let $FZF_DEFAULT_OPTS="--preview-window 'right:57%'
-\ --bind ctrl-y:preview-up,ctrl-e:preview-down,
-\ctrl-b:preview-page-up,ctrl-f:preview-page-down,
-\ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,
-\shift-up:half-page-up,shift-down:half-page-down"
+" " fzf configured
+" let $FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'
+" let $FZF_DEFAULT_OPTS="--preview-window 'right:57%'
+" \ --bind ctrl-y:preview-up,ctrl-e:preview-down,
+" \ctrl-b:preview-page-up,ctrl-f:preview-page-down,
+" \ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down,
+" \shift-up:half-page-up,shift-down:half-page-down"
 
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
-nnoremap <C-p> :GFiles<Cr>
-nnoremap <C-l> :Files<Cr>
+nnoremap <C-p> :Telescope git_files<Cr>
+nnoremap <C-l> :Telescope <Cr>
+nnoremap gr :Telescope lsp_references<Cr>
+nnoremap gi :Telescope lsp_implementations<Cr>
+nnoremap <C-g> :Telescope grep_string<Cr>
+
+" quick fix
+nnoremap <C-j><C-k> :cnext <CR>
+
 nnoremap <leader>sb :G<Cr>
 nnoremap <leader>st :GFiles?<Cr>
 nnoremap <leader>sd :Gdiffsplit<Cr>
-nnoremap <leader>g :Rg<Cr>
-nnoremap <leader>w :Rg <C-R><C-W><Cr>
+nnoremap <leader>g :Telescope live_grep<Cr>
 nnoremap <leader>q :ccl<Cr>
 
 nnoremap <leader>gb :Git blame<CR>
@@ -181,6 +191,7 @@ au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
 " Alternate commands
 au FileType go nmap <Leader>ae <Plug>(go-alternate-edit)
 au FileType go nmap <Leader>av <Plug>(go-alternate-vertical)
+au FileType go nmap <leader>aa :GoAlternate!<cr>
 
 " Common Go commands
 au FileType go nmap <leader>c :GoCoverageToggle<cr>
