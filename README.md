@@ -30,7 +30,7 @@ brew install rg
 ```
 
 # keymap motion
-## Leader key was mapped to '<space>'
+## Leader key was mapped to \<space\>
 gd : Go to definition
 
 gi : Go to implementation
@@ -43,6 +43,6 @@ ctrl-u : Scroll page up
 
 ctrl-d : Scroll page down
 
-<leader>ae : switch to test file
+\<leader\>ae : switch to test file
 
-<leader><tab> : switch between previous file
+\<leader\>\<tab\> : switch between previous file
