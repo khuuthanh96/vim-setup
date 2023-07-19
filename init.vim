@@ -1,11 +1,9 @@
 " plugins
 call plug#begin('~/.vim/plugged')
 
-" theme
+" theme & icon
 Plug 'morhetz/gruvbox'
-
-" coc code complete
-" Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'nvim-tree/nvim-web-devicons'
 
 " lsp & autocomplete
 Plug 'neovim/nvim-lspconfig'
@@ -15,6 +13,7 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'onsails/lspkind.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 
@@ -22,29 +21,30 @@ Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 
-
-" go extension
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'tpope/vim-fugitive'
-
-" status bar
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
 " file navigate
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'branch': '0.1.x' }
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
-" code extension
-Plug 'jiangmiao/auto-pairs'
-Plug 'fatih/gomodifytags'
+" status bar
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " file tree
 Plug 'preservim/nerdtree'
 
+" git
+Plug 'tpope/vim-fugitive'
+
 " code comment
 Plug 'tpope/vim-commentary'
+
+" code extension
+Plug 'jiangmiao/auto-pairs'
+Plug 'fatih/gomodifytags'
+
+" go extension
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " debug
 Plug 'mfussenegger/nvim-dap'
@@ -129,6 +129,7 @@ nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 nnoremap <C-p> :Telescope git_files<Cr>
 nnoremap <C-l> :Telescope <Cr>
+nnoremap <leader>l :Telescope buffers<Cr>
 nnoremap gr :Telescope lsp_references<Cr>
 nnoremap gi :Telescope lsp_implementations<Cr>
 nnoremap <C-g> :Telescope grep_string<Cr>
@@ -142,8 +143,9 @@ nnoremap <leader>sd :Gdiffsplit<Cr>
 nnoremap <leader>g :Telescope live_grep<Cr>
 nnoremap <leader>q :ccl<Cr>
 
-nnoremap <leader>gb :Git blame<CR>
-nnoremap <leader>go :Git log --oneline<CR>
+" git keymap
+nnoremap gB :Git blame<CR>
+nnoremap gb :Telescope git_branches<CR>
 
 " //3 get from our side, //2 get from origin
 nnoremap <leader>gr :diffget //3<CR>
@@ -155,7 +157,6 @@ nnoremap <leader>d "_dd<CR>
 nnoremap <leader>s :Startify<CR>
 
 nnoremap <leader><TAB> <C-^>
-nnoremap <leader>l :Buffers<Cr>
 nnoremap <leader>bd :%bd<bar>e#<bar>bd#<Cr>
 nnoremap <leader>nh :noh<Cr>
 nnoremap <leader>+ :vertical resize +5<CR>

@@ -2,7 +2,7 @@ local cmp = require('cmp')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 local nvim_lsp = require('lspconfig')
 local luasnip = require('luasnip')
-local servers = { 'gopls', 'vuels', 'tailwindcss', 'tsserver' }
+local servers = { 'gopls', 'vuels', 'tailwindcss', 'tsserver', 'sqlls' }
 
 -- require'nvim-treesitter.configs'.setup {
 --   highlight = {
@@ -14,6 +14,10 @@ local servers = { 'gopls', 'vuels', 'tailwindcss', 'tsserver' }
 --     additional_vim_regex_highlighting = false,
 --   },
 -- }
+local ok, lspkind = pcall(require, "lspkind")
+if not ok then
+  return
+end
 
 -- Use an on_attach function to only map the following keys after
 -- the language server attaches to the current buffer
@@ -32,9 +36,24 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>e', vim.diagnostic.goto_next, bufopts)
   vim.keymap.set('n', '<leader>E', vim.diagnostic.goto_prev, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-  -- vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', '<leader>f', vim.lsp.buf.formatting, bufopts)
+  --
+  vim.api.nvim_create_autocmd("CursorHold", {
+	buffer = bufnr,
+	callback = function()
+	  local opts = {
+	      focusable = false,
+	      close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+	      border = 'rounded',
+	      source = 'always',
+	      prefix = ' ',
+	      scope = 'cursor',
+	  }
+	  vim.diagnostic.open_float(nil, opts)
+	end
+  })
 
 end
 
@@ -85,14 +104,25 @@ cmp.setup {
   }),
   sources = {
     { name = "nvim_lua" },
-
     { name = "nvim_lsp" },
     { name = "path" },
     { name = "luasnip" },
     { name = "buffer", keyword_length = 5 },
   },
-  experimental = {
-    ghost_text = true,
+
+  formatting = {
+    format = lspkind.cmp_format {
+      with_text = true,
+      menu = {
+        buffer = "[buf]",
+        nvim_lsp = "[LSP]",
+        nvim_lua = "[api]",
+        path = "[path]",
+        luasnip = "[snip]",
+        tn = "[TabNine]",
+        eruby = "[erb]",
+      },
+    },
   },
 }
 
@@ -107,6 +137,7 @@ cmp.setup {
 --     local hl = "DiagnosticSign" .. type
 --     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 -- end
+--
 
 vim.diagnostic.config({
 })
